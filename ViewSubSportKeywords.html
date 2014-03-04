@@ -1,0 +1,479 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <title>ViewSubSportKeywords</title>
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/png" />
+    <meta content="width=device-width; initial-scale=1; maximum-scale=1; user-scalable=0;"
+        name="viewport" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" type="image/ico" href="http://www.datatables.net/media/images/favicon.ico" />
+    <link href="media/css/demo_table.css" rel="stylesheet" type="text/css" />
+    <link href="media/css/demo_page.css" rel="stylesheet" type="text/css" />
+    <script src="js/jquery-1.4.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/jquery.Storage.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var online = navigator.onLine;    // Detecting the internet connection
+            if (online) {
+                // do your stuff
+            } else {
+                alert('You\'re Offline now...');
+                return false;
+            }
+        });
+        function getUrlVars() {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+
+        }
+
+
+        queryString = getUrlVars()["SportName"]; queryString = queryString.replace("%20", " ");
+        queryString = queryString.replace("%20", " ");
+        var data = { "SportName": queryString };
+        var items = [];
+        $.ajax(
+			{
+			    type: "POST",
+			    url: "http://2bvision.com/Kids2proSports/ViewSubSportKewords.asmx/GetArticelBlog",
+			    data: JSON.stringify(data),
+			    contentType: "application/json; charset=utf-8",
+			    dataType: "json",
+
+			    success: function (response, status) {
+
+			        var Kewords = {};
+			        Kewords = response.d;
+			        for (i = 0; i < Kewords.length; i++) {
+			            $('#ListKewords').append('<li><a style="color:Black" href="ViewKeyword.html?KeywordName=' + Kewords[i].keyword + '">' + Kewords[i].keyword + '</a></li>');
+
+			        }
+
+			    },
+			    failure: function (msg) {
+			        alert(msg);
+			    }
+			});
+
+
+
+        function GetHomePageHeading() {
+            var User = $.Storage.get("UserName");
+
+            if (User != null) {
+                queryString = getUrlVars()["SportName"]; queryString = queryString.replace("%20", " ");
+                queryString = queryString.replace("%20", " ");
+                var data = { "sportName": queryString };
+
+                $.ajax(
+			{
+
+			    type: "POST",
+			    url: "http://2bvision.com/Kids2proSports/SporthomePageBuilder.asmx/GetHomePageHeading",
+			    data: JSON.stringify(data),
+			    contentType: "application/json; charset=utf-8",
+			    dataType: "json",
+
+			    success: function (response, status) {
+			        //
+			        $("#ASPxLabelSportHeader").text(response.d);
+
+			    },
+			    failure: function (msg) {
+			        alert(msg);
+			    }
+			});
+
+            }
+            else {
+                window.location.href = 'login.html';
+            }
+        }
+        /// ///
+        function GetRecentArticelsSection() {
+            queryString = getUrlVars()["SportName"]; queryString = queryString.replace("%20", " ");
+            queryString = queryString.replace("%20", " ");
+            var data = { "sportName": queryString };
+
+            $.ajax({
+                url: 'http://2bvision.com/Kids2proSports/SporthomePageBuilder.asmx/GetRecentArticelsSection',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    //
+                    $("#divFeaturedArticles").html(response.d);
+                },
+                failure: function (errMsg) {
+                    $('#errorMessage').text(errMsg); //errorMessage is id of the div
+                }
+            });
+        }
+
+
+        /// IsUserAFollower ////
+        function IsUserAFollower() {
+
+            queryString = getUrlVars()["SportName"]; queryString = queryString.replace("%20", " ");
+            queryString = queryString.replace("%20", " ");
+            var data = { "userName": $.Storage.get("UserName"), "sport": queryString };
+
+            $.ajax({
+                url: 'http://2bvision.com/Kids2proSports/SporthomePageBuilder.asmx/IsUserAFollower',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+
+                    if (response.d == true) {
+                        $("#LiteralIsFollowingMessage").text("You are following " + queryString.replace("%20", " "));
+                        $("#DivFollow").hide();
+                        $("#LinkButtonUnFollow").show();
+                        $("#LinkButtonUnFollow").val("Click here to Un-follow");
+
+                    }
+                    else {
+                        $("#LiteralIsFollowingMessage").text("");
+                        $("DivUnFollow").hide();
+                        queryString = queryString.replace("%20", " ");
+                        $("#LinkButtonFollow").val("Click Here to Follow " + queryString);
+                    }
+                    //handel link button Follow /unfollow
+                },
+                failure: function (errMsg) {
+                    //errorMessage is id of the div
+                }
+            });
+
+
+        }
+
+        /// HandleSportCountIncrementing ////
+        function HandleSportCountIncrementing() {
+            queryString = getUrlVars()["SportName"]; queryString = queryString.replace("%20", " ");
+            queryString = queryString.replace("%20", " ");
+            var data = { "_sportName": queryString };
+
+            $.ajax({
+                url: 'http://2bvision.com/Kids2proSports/SporthomePageBuilder.asmx/HandleSportCountIncrementing',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+
+                },
+                failure: function (errMsg) {
+                    $('#errorMessage').text(errMsg); //errorMessage is id of the div
+                }
+            });
+
+        }
+        /// GetNumberOfSportImpressions ////
+        function GetNumberOfSportImpressions() {
+
+            queryString = getUrlVars()["SportName"]; queryString = queryString.replace("%20", " ");
+            queryString = queryString.replace("%20", " ");
+            var data = { "sportName": queryString };
+
+            $.ajax({
+                url: 'http://2bvision.com/Kids2proSports/SporthomePageBuilder.asmx/GetNumberOfSportImpressions',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    var count = response.d;
+                    $("#LabelSportPageViews").text(count + " Page Views for " + queryString.replace("%20", " "));
+                },
+                failure: function (errMsg) {
+                    $('#errorMessage').text(errMsg); //errorMessage is id of the div
+                }
+            });
+
+        }
+        ///GetSportHierarchy()///
+        function GetSportHierarchy() {
+
+            queryString = getUrlVars()["SportName"]; queryString = queryString.replace("%20", " ");
+            queryString = queryString.replace("%20", " ");
+            var data = { "sportName": queryString };
+
+            $.ajax({
+                url: 'http://2bvision.com/Kids2proSports/SporthomePageBuilder.asmx/GetSportHierarchy',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+
+                    $("#divLiteralSportHierarchy").html(response.d);
+                },
+                failure: function (errMsg) {
+                    $('#errorMessage').text(errMsg); //errorMessage is id of the div
+                }
+            });
+        }
+        ///GetSportDefinition() ///
+        function GetSportDefinition() {
+            queryString = getUrlVars()["SportName"]; queryString = queryString.replace("%20", " ");
+            queryString = queryString.replace("%20", " ");
+            var data = { "sportName": queryString };
+
+            $.ajax({
+                url: 'http://2bvision.com/Kids2proSports/SporthomePageBuilder.asmx/GetSportDefinition',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+
+                    $("#DivSportDefinition").html(response.d);
+
+                },
+                failure: function (errMsg) {
+                    $('#errorMessage').text(errMsg); //errorMessage is id of the div
+                }
+            });
+        }
+        /// EncodeSubNav() ///
+        function EncodeSubNav() {
+            queryString = getUrlVars()["SportName"]; queryString = queryString.replace("%20", " ");
+            queryString = queryString.replace("%20", " ");
+            var data = { "currentPage": "Main", "_sportName": queryString };
+            $.ajax({
+                url: 'http://2bvision.com/Kids2proSports/SporthomePageBuilder.asmx/EncodeSubNav',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    var response = response.d;
+                    // alert(response);
+                    $('#LiteralSubNav').html(response);
+                },
+                failure: function (errMsg) {
+                    $('#errorMessage').text(errMsg); //errorMessage is id of the div
+                }
+            });
+        }
+
+        ///GetRecentArticelsSection()///
+        function GetRecentArticelsSection() {
+            queryString = getUrlVars()["SportName"]; queryString = queryString.replace("%20", " ");
+            queryString = queryString.replace("%20", " ");
+            var data = { "sportName": queryString };
+
+            $.ajax({
+                url: 'http://2bvision.com/Kids2proSports/SporthomePageBuilder.asmx/GetRecentArticelsSection',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    // 
+                    $("#divFeaturedArticles").html(response.d);
+                },
+                failure: function (errMsg) {
+                    $('#errorMessage').text(errMsg); //errorMessage is id of the div
+                }
+            });
+        }
+        /// GetMediumRectangle() ///
+        function GetMediumRectangle() {
+
+            $.ajax({
+                url: 'http://2bvision.com/Kids2proSports/AdvertisementManagerService.asmx/GetMediumRectangle',
+                type: 'POST',
+                data: {},
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    $("#MediumRectangle").html(response.d);
+
+                },
+                failure: function (errMsg) {
+                    $('#errorMessage').text(errMsg); //errorMessage is id of the div
+                }
+            });
+        }
+        function GetRightAdver() {
+
+            $.ajax(
+{
+    type: "POST",
+    url: "http://2bvision.com/Kids2proSports/AdvertisementManagerService.asmx/GetRightAdvertisingColumn",
+    data: "{}",
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+
+    success: function (response, status) {
+
+        $.Storage.get("UserName");
+        var asd = $("#divRightAdds");
+        $("#divRightAdds").html(response.d);
+
+    },
+    failure: function (msg) {
+        alert(msg);
+    }
+}
+	);
+        }
+        /*HandleSportCountIncrementing(),IsUserAFollower(),GetNumberOfSportImpressions(),GetSportHierarchy(),GetSportDefinition(),GetRecentArticelsSection(),GetMediumRectangle()  */
+    </script>
+    <script type="text/javascript">
+
+        /// Handle User UnFollowing ////
+        function HandleUserUnFollow() {
+
+            queryString = getUrlVars()["SportName"]; queryString = queryString.replace("%20", " ");
+            queryString = queryString.replace("%20", " ");
+            var data = { "userName": $.Storage.get("UserName"), "_sportName": queryString };
+
+            $.ajax({
+                url: 'http://2bvision.com/Kids2proSports/SporthomePageBuilder.asmx/HandleUserUnFollow',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    //  alert(reponse.d)
+                    var Response = reponse.d;
+                    queryString = queryString.replace("%20", " ");
+                    $("#LiteralIsFollowingMessage").text("You are no longer following " + queryString);
+
+                    $("#LinkButtonUnfollow").hide();
+                    $("#DivFollow").hide();
+                    //handel link button Follow /unfollow
+                },
+                failure: function (errMsg) {
+                    //errorMessage is id of the div
+                }
+            });
+        }
+
+    </script>
+    <script type="text/javascript">
+
+        /// Handle User Following ////
+        function HandleUserFollowing() {
+
+            queryString = getUrlVars()["SportName"]; queryString = queryString.replace("%20", " ");
+            queryString = queryString.replace("%20", " ");
+            var data = { "userName": $.Storage.get("UserName"), "_sportName": queryString };
+
+            $.ajax({
+                url: 'http://2bvision.com/Kids2proSports/SporthomePageBuilder.asmx/HandleUserFollowing',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    $("#LiteralIsFollowingMessage").text("");
+                    $("#ASPxLabelSportHeader").text("You are now following. You will receive a notification whenever any content, article                          or video is published about this sport " + queryString);
+                    $("#DivUnFollow").show();
+                    $("#LinkButtonUnfollow").val('If you would like to stop following this  Home Page, click here');
+                    $("#LinkButtonUnfollow").show();
+                    $("#DivFollow").hide();
+                    //handel link button Follow /unfollow
+                },
+                failure: function (errMsg) {
+                    //errorMessage is id of the div
+                }
+            });
+        }
+    </script>
+    <!--"HandleSportCountIncrementing(),IsUserAFollower(),GetNumberOfSportImpressions(),GetSportHierarchy(),GetSportDefinition(),GetRecentArticelsSection(),EncodeSubNav()"-->
+</head>
+<body onload="HandleSportCountIncrementing(),IsUserAFollower(),GetNumberOfSportImpressions(),GetSportHierarchy(),GetSportDefinition(),GetRecentArticelsSection(),EncodeSubNav(),GetRightAdver()">
+    <div id="wraper">
+        <header>
+          <nav>
+              <ul class="clearfix">
+                  <li>
+                      <a href="SportsDefinitions.html" target="_self" title="Sports" >Sports</a>
+                  </li>
+                  <li>
+                      <a href="createArticle.html" title="Articles" target="_self">Articles</a>
+                  </li>
+                  <li>
+                      <a class="ui-link" href="CreateTeam.html" title="Teams" target="_self">Teams</a>
+                  </li>
+                  
+                  <li>
+                      <a class="ui-link" href="CreateFanClub.html" title="Fanclubs" target="_self">Fan Clubs</a>
+                  </li>
+              </ul>
+          </nav>
+      </header>
+        <div id="divLeaderBoard">
+        </div>
+        <!-- header ends -->
+        <!-- container starts-->
+        <div class="contetns clearfix">
+            <!-- left area starts-->
+            <div class="contentLeft fLeft">
+                <div class="innerwrapper">
+                    <!-- contentLeft -->
+                    <h2>
+                        <label id="ASPxLabelSportHeader">
+                        </label>
+                    </h2>
+                    <div id="divLiteralSportHierarchy">
+                    </div>
+                    <div id="LiteralSubNav" class="sportSubNav fLeft !important">
+                    </div>
+                    <nav>  
+ 			     <ul id="ListKewords" class="clearfix">
+                
+                  </ul> 
+                  </nav>
+                    <br />
+                    <div id="errormessage">
+                    </div>
+                    <br />
+                    <!--end ownLine-->
+                </div>
+                <br />
+                <div id="divFeaturedArticles">
+                </div>
+                <br />
+                <div id="DivSportDefinition">
+                </div>
+                <br />
+                <div id="DivFollow">
+                    <h2>Follow</h2>
+                    <input type="button" id="LinkButtonFollow" onclick="HandleUserFollowing()" />
+                </div>
+                <br />
+                <div class="clearfix">
+                </div>
+                <div id="DivUnFollow">
+                    <label id="LiteralIsFollowingMessage"></label>
+                    <a id="LinkButtonUnfollow" onclick="HandleUserUnFollow()">
+                        <label id="LabelStopFollowingMessage">
+                        </label>
+                    </a>
+
+                </div>
+                <br />
+                <label id="LabelSportPageViews">
+                </label>
+                <br />
+                <div id="MediumRectangle">
+                </div>
+                <br />
+            </div>
+        </div>
+    </div>
+</body>
+</html>

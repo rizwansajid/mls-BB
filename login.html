@@ -1,0 +1,169 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript" src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="js/jquery-1.4.2.js"></script>
+    <script type="text/javascript" src="js/jquery.Storage.js"></script>
+    <script type="text/javascript" src="js/jquery.jsonp-2.1.3.min.js"></script>
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+
+
+        });
+
+        $(document).ready(function () {
+
+            var online = navigator.onLine;    // Detecting the internet connection
+            if (online) {
+                // do your stuff
+            } else {
+                alert('You\'re Offline now...');
+                return false;
+            }
+
+            if ($.Storage.get("UserName") != null) {
+                $.Storage.set("UserName", "");
+            }
+
+
+
+        });
+
+        function getLogin() {
+            $("#lblEror").val('');
+            //  alert($('#txtEmail').val());
+
+
+            $.ajax(
+{
+    type: "POST",
+    url: "http://2bvision.com/Kids2proSports/login.asmx/LoginUser",
+    data: "{userName: '" + $('#txtEmail').val() + "','password':'" + $('#txtPassword').val() + "'}",
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+
+    success: function (response, status) {
+        var login = response.d;
+        if (login != null) {
+            $.Storage.set("UserName", response.d);
+            window.location.href = 'userprofile.html';
+        }
+        else { $("#lblEror").text("Username or Password is incorrect"); }
+
+    },
+    failure: function (msg, i) {
+        alert(i);
+    }
+}
+	);
+        }	
+    </script>
+    <script type="text/javascript">
+        function asd() {
+            var thing = { plugin: 'jquery-json', version: 2.3 };
+
+            var encoded = $.toJSON(thing);
+            // '{"plugin":"jquery-json","version":2.3}'
+            var name = $.evalJSON(encoded).plugin;
+            // "jquery-json"
+            var version = $.evalJSON(encoded).version;
+            // 2.3
+            sessionStorage.setitem("name", "value");
+            // alert(sessionStorage.getitem("name"));
+        }
+    </script>
+</head>
+<body>
+    
+        <div id="wraper">
+            <header>
+          <nav>
+              <ul class="clearfix">
+                  <li>
+                      <a href="SportsDefinitions.html" target="_self" title="Sports" >Sports</a>
+                  </li>
+                  <li>
+                      <a href="createArticle.html" title="Articles" target="_self">Articles</a>
+                  </li>
+                  <li>
+                      <a class="ui-link" href="CreateTeam.html" title="Teams" target="_self">Teams</a>
+                  </li>
+                  
+                  <li>
+                      <a class="ui-link" href="CreateFanClub.html" title="Fanclubs" target="_self">Fan Clubs</a>
+                  </li>
+              </ul>
+          </nav>
+      </header>
+            <!-- header ends -->
+            <div class="innermenu">
+                <ul class="clearfix">
+                    <li><a href="mediaKit.html" title="mediakit" target="_self">Media Kit</a>
+                    </li>
+                    <li class="sep"></li>
+                    <li><a href="Faq.html" title="faq" target="_self">FAQ</a> </li>
+                    <li class="sep"></li>
+                    <li><a href="feedback.html" title="feedback" target="_self">Feedback</a> </li>
+                    <li class="sep"></li>
+                    <li><a href="ContactUs.html" title="contactus" target="_self">Contact</a>
+                    </li>
+                    <li class="sep"></li>
+                </ul>
+            </div>
+            <!-- container starts-->
+            <div class="contetns">
+                <!-- login -->
+                <div class="loginWrap">
+                    <div class="loginWrap">
+                        <!-- tabs-->
+                        <div class="loginTabs">
+                            <a href="login.html">Login</a> <a class="blue" href="register.html">Register</a>
+                        </div>
+                        <!-- input -->
+                        <div class="clear">
+                            <div class="loginMiddle">
+                                <div class="row newuser">
+                                    Please enter your username and password. <a href="register.html">Register</a> if
+                                    you don't have an account.
+                                </div>
+                                <div class="errorLogin">
+                                    <label id="lblEror">
+                                    </label>
+                                </div>
+                                <div class="clearfix">
+                                </div>
+                                <div class="line">
+                                </div>
+                                <div class="row clearfix">
+                                    <label>
+                                        User Name:</label>
+                                    <input id="txtEmail" class="inputBox" type="text" placeholder="Enter username here"
+                                        tabindex="1" size="50" maxlength="60" name="email" />
+                                </div>
+                                <div class="row clearfix">
+                                    <label>
+                                        Password:</label>
+                                    <input id="txtPassword" class="inputBox" type="password" placeholder="Enter password here"
+                                        tabindex="1" size="20" maxlength="15" name="password" />
+                                </div>
+                                <div class="line">
+                                </div>
+                                <div class="row newuser clearfix">
+                                    <a href="recover.html">Forgot your password?</a>
+                                    <input id="submit" class="btn fRight" type="submit" tabindex="3" onclick="getLogin()"
+                                        name="submit" value="Login">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- container ends-->
+        </div>
+</body>
+</html>

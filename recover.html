@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title></title>
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="css/skeleton.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="js/jquery-1.4.2.js"></script>
+    <script type="text/javascript" src="js/jquery.Storage.js"></script>
+    <script type="text/javascript" src="js/jquery.jsonp-2.1.3.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var online = navigator.onLine;    // Detecting the internet connection
+            if (online) {
+                // do your stuff
+            } else {
+                alert('You\'re Offline now...');
+                return false;
+            }
+
+            $('#lblmessage').text("");
+
+        });
+
+        function RecoverClick() {
+            if ($('#txtusername').val() != "") { } else { $('#lblmessage').text("Please enter User Name"); }
+
+            if ($('#txtusername').val() != "") {
+                var Paramdata = { "userName": $('#txtusername').val(), "email": null };
+
+                $.ajax(
+		{
+		    type: "POST",
+		    url: "http://2bvision.com/Kids2proSports/Register.asmx/recoverpassword",
+		    data: JSON.stringify(Paramdata),
+		    contentType: "application/json; charset=utf-8",
+		    dataType: "json",
+		    success: function (response, status) {
+		        var Response = response.d;
+		        if (Response != null) {
+		            $('#lblmessage').text("An email containing new password has been sent to your email address");
+		            //window.location.href = "login.html";
+		        }
+		        else {
+		            $('#lblmessage').text("password change failed please retry");
+		        }
+		    },
+		    failure: function (msg) {
+		        alert(msg);
+		    }
+		});
+            }
+            else { }
+        }
+    </script>
+</head>
+<body>
+    <div id="wraper">
+        <header>
+          <nav>
+              <ul id="" class="clearfix">
+                  <li>
+                      <a href="index.html" title="home" target="_self">home</a>
+                  </li>
+                  <li>
+                      <a href="mediaKit.html" title="mediakit" target="_self">Media Kit</a>
+                  </li>
+                  <li>
+                      <a class="ui-link" href="Faq.html" title="faq" target="_self">FAQ</a>
+                  </li>
+                  <li>
+                      <a class="ui-link" href="feedback.html" title="feedback" target="_self">Feedback</a>
+                  </li>
+                  <li>
+                      <a class="ui-link" href="contactus.html" title="contactus" target="_self">Contact Us</a>
+                  </li>
+              </ul>
+          </nav>
+      </header>
+        <!-- header ends -->
+        <!-- container starts-->
+        <div class="contetns">
+            <!-- login -->
+            <div class="loginWrap">
+                <div class="loginWrap">
+                    <!-- tabs-->
+                    <div class="loginTabs">
+                        <a href="login.html">Recover</a>
+                    </div>
+                    <!-- input -->
+                    <div class="clear">
+                        <div class="loginMiddle">
+                            <div class="row newuser">
+                                Enter your user name or email address.
+                            </div>
+                            <div class="errorLogin">
+                                <label id="lblmessage">
+                                </label>
+                            </div>
+                            <div class="clearfix">
+                            </div>
+                            <div class="row clearfix">
+                                <label>
+                                    UserName:</label>
+                                <input class="inputBox" type="text" tabindex="1" size="50" maxlength="60" name="txtusername"
+                                    id="txtusername" />
+                            </div>
+                            <div class="line">
+                            </div>
+                            <div class="row newuser clearfix">
+                                <input id="submit" class="btn fRight" type="submit" tabindex="3" onclick="RecoverClick()"
+                                    name="Recover" value="Recover" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- container ends-->
+        
+    </div>
+</body>
+</html>

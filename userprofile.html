@@ -1,0 +1,293 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    
+    <title></title>
+    
+    
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="css/skeleton.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="js/jquery-1.4.2.js"></script>
+    <script type="text/javascript" src="js/jquery.Storage.js"></script>
+    <script type="text/javascript" src="js/jquery.jsonp-2.1.3.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            if ($.Storage.get("UserName") == null || $.Storage.get("UserName") == "")
+            { window.location.href='login.html'}
+            var online = navigator.onLine;    // Detecting the internet connection
+            if (online) {
+                // do your stuff
+            } else {
+                alert('You\'re Offline now...');
+                return false;
+            }
+        });
+        function getUrlVars() {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        }
+        var User = $.Storage.get("UserName");
+        var ViewingUser = getUrlVars()["Id"];
+        function GeneralInfo() {
+
+            if (ViewingUser == null) {
+                ViewingUser = $.Storage.get("UserName");
+                User = $.Storage.get("UserName");
+            }
+            else {
+                User = getUrlVars()["Id"];
+                ViewingUser = $.Storage.get("UserName");
+
+            }
+            if (User != null) {
+
+                $.ajax(
+	{
+	    type: "POST",
+	    url: "http://2bvision.com/Kids2proSports/ProfileBuilderService.asmx/GetGeneralProfileInformation",
+	    data: "{userName: '" + User + "','viewingUser':'" + ViewingUser + "'}",
+	    contentType: "application/json; charset=utf-8",
+	    dataType: "json",
+
+	    success: function (response, status) {
+
+	        $.Storage.get("UserName");
+
+	        $("#divGenralInfo").html(response.d);
+	        $("#divUserName").html($.Storage.get("UserName")).append(" Profile");
+	    },
+	    failure: function (msg) {
+	        alert(msg);
+	    }
+	}
+	);
+            }
+            else {
+                window.location.href = 'login.html';
+            }
+        }
+
+
+        function GetLanguageInfo() {
+
+            $.ajax(
+{
+    type: "POST",
+    url: "http://2bvision.com/Kids2proSports/ProfileBuilderService.asmx/GetLanguageInfo",
+    data: "{userName: '" + User + "','viewingUser':'" + ViewingUser + "'}",
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+
+    success: function (response, status) {
+
+        $.Storage.get("UserName");
+        var asd = $("#divLanguageInfo");
+        $("#divLanguageInfo").html(response.d);
+
+
+    },
+    failure: function (msg) {
+        alert(msg);
+    }
+}
+	);
+        }
+
+
+        function GetLeftColumn() {
+
+            $.ajax(
+{
+    type: "POST",
+    url: "http://2bvision.com/Kids2proSports/ProfileBuilderService.asmx/GetLeftColumn",
+    data: "{userName: '" + User + "','viewingUser':'" + ViewingUser + "'}",
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+
+    success: function (response, status) {
+
+        $.Storage.get("UserName");
+        $("#divLefColoumn").html(response.d);
+    },
+    failure: function (msg) {
+        alert(msg);
+    }
+}
+	);
+        }
+
+
+        function GetSocialMeta() {
+
+            $.ajax(
+{
+    type: "POST",
+    url: "http://2bvision.com/Kids2proSports/ProfileBuilderService.asmx/GetSocialMeta",
+    data: "{userName: '" + User + "','viewingUser':'" + ViewingUser + "'}",
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+
+    success: function (response, status) {
+        $.Storage.get("UserName");
+        var asd = $("#divSocialMeta");
+        $("#divSocialMeta").html(response.d);
+
+
+    },
+    failure: function (msg) {
+        alert(msg);
+    }
+}
+	);
+        }
+
+
+        function GetRightAdver() {
+
+            $.ajax(
+{
+    type: "POST",
+    url: "http://2bvision.com/Kids2proSports/AdvertisementManagerService.asmx/GetRightAdvertisingColumn",
+    data: "{}",
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+
+    success: function (response, status) {
+
+        $.Storage.get("UserName");
+        var asd = $("#divRightAdds");
+        $("#divRightAdds").html(response.d);
+
+    },
+    failure: function (msg) {
+        alert(msg);
+    }
+}
+	);
+        }
+
+
+        function GetLeaderBoard() {
+
+            $.ajax(
+{
+    type: "POST",
+    url: "http://2bvision.com/Kids2proSports/AdvertisementManagerService.asmx/GetLeaderBoard",
+    data: "{}",
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+
+    success: function (response, status) {
+
+        $.Storage.get("UserName");
+        var asd = $("#divLeaderBoard");
+        $("#divLeaderBoard").html(response.d);
+
+
+    },
+    failure: function (msg) {
+        alert(msg);
+    }
+}
+	);
+        }
+
+
+        function GetNoOfFollowers() {
+
+            $.ajax(
+{
+    type: "POST",
+    url: "http://2bvision.com/Kids2proSports/ProfileBuilderService.asmx/GetNumberOfFollowers",
+    data: "{}",
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+
+    success: function (response, status) {
+
+        var asd = $("#lblNoOfFollewrs");
+        var NoOfFollowers = "The Member has " + response.d + " Followers";
+        $("#lblNoOfFollewrs").text(NoOfFollowers);
+
+    },
+    failure: function (msg) {
+        alert(msg);
+    }
+}
+	);
+        }	
+    </script>
+</head>
+<body onload="GeneralInfo(),GetLanguageInfo(),GetLeftColumn(),GetSocialMeta(),GetLeaderBoard(), GetNoOfFollowers(),GetRightAdver()">
+    <div id="wraper">
+        <header>
+          <nav>
+              <ul class="clearfix">
+                  <li>
+                      <a href="SportsDefinitions.html" target="_self" title="Sports" >Sports</a>
+                  </li>
+                  <li>
+                      <a href="createArticle.html" title="Articles" target="_self">Articles</a>
+                  </li>
+                  <li>
+                      <a class="ui-link" href="CreateTeam.html" title="Teams" target="_self">Teams</a>
+                  </li>
+                  
+                  <li>
+                      <a class="ui-link" href="CreateFanClub.html" title="Fanclubs" target="_self">Fan Clubs</a>
+                  </li>
+              </ul>
+          </nav>
+      </header>
+        <!-- header ends -->
+        <!-- container starts-->
+        <!-- inner menu starts-->
+        <div class="innermenu">
+            <ul class="clearfix">
+                <li><a href="index.html" title="home" target="_self">Home</a> </li>
+                <li class="sep"></li>
+                <li><a href="MyAccount.html" title="My Account" target="_self">My Account</a> </li>
+            </ul>
+        </div>
+        <!-- inner menu ends-->
+        <div class="contetns">
+            <div class="clearfix">
+                <div id="divLeaderBoard">
+                </div>
+                <div class="contentLeft fLeft" id="divLefColoumn">
+                    <div id="userProfile">
+                        <div>
+                            <div id="divUserName" class="fLeft">
+                            </div>
+                        </div>
+                        <div id="divGenralInfo" style="font-size: 12px;">
+                        </div>
+                        <br />
+                        <div id="divLanguageInfo">
+                            &nbsp;</div>
+                        <br />
+                    </div>
+                    <br />
+                   
+                    
+                    <div>
+                        <label style="font-family: Arial, Helvetica, sans-serif; font-size: 11px" id="lblNoOfFollewrs" />
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <!-- container ends-->
+      
+        
+    </div>
+
+</body>
+</html>

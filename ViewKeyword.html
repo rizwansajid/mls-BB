@@ -1,0 +1,368 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>ViewKeyword</title>
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/png" />
+    <meta content="width=device-width; initial-scale=1; maximum-scale=1; user-scalable=0;"
+        name="viewport" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" type="image/ico" href="http://www.datatables.net/media/images/favicon.ico" />
+    <script src="js/jquery-1.4.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/jquery.Storage.js"></script>
+    <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <style type="text/css">
+        .dataTables_filter
+        {
+            display: none;
+        }
+    </style>
+    <script type="text/javascript">
+             $(document).ready(function () {
+            var online = navigator.onLine;    // Detecting the internet connection
+            if (online) {
+                // do your stuff
+            } else {
+                alert('You\'re Offline now...');
+                return false;
+            }
+        });   
+            function getUrlVars() {
+                var vars = [], hash;
+                var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < hashes.length; i++) {
+                    hash = hashes[i].split('=');
+                    vars.push(hash[0]);
+                    vars[hash[0]] = hash[1];
+                }
+                return vars;
+           	
+			}
+		
+		
+		  function renderTable(result) {
+                var dtData = [];
+                $.each(result, function () {
+                    dtData.push([
+                           this.UserName,
+                           this.DateTime,
+						   this.Text,
+                          "<a href=ViewArticle.h?Id="+ArticleId+">View Full Article</a>"
+						   
+						   
+
+                        ]);
+                });
+                $('#ASPxGridViewSubSport').dataTable({ //grid is the id of the table
+                    'aaData': dtData,                   
+                });
+            }
+			 function renderTableProfile(result) {
+                var dtDataProfile = [];
+                $.each(result, function () {
+                    dtDataProfile.push([
+                           this.UserName,
+                           this.DateTime,
+						   this.Text,
+						   this.ArticleId
+						   
+
+                        ]);
+                });
+                $('#ASPxGridViewSportProfiles').dataTable({ //grid is the id of the table
+                    'aaData': dtDataProfile,                   
+                });
+            }
+              var querystring= getUrlVars()["KeywordName"];
+			  Paramdata={"Keyword":querystring}
+            $.ajax({
+                url: 'http://2bvision.com/Kids2proSports/ViewArticle.asmx/DataSourceKeywords',
+                type: 'POST',
+                data: JSON.stringify(Paramdata),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    
+                    renderTable(response.d);
+                },
+                failure: function (errMsg) {
+                    $('#errorMessage').text(errMsg); //errorMessage is id of the div
+                }
+            });
+			
+		var querystring= getUrlVars()["KeywordName"];
+        querystring=querystring.replace("%20"," ");
+		Paramdata={"sportAccount":querystring}
+	   $.ajax({
+                url: 'http://2bvision.com/Kids2proSports/ViewArticle.asmx/SporProfileKeywords',
+                type: 'POST',
+                data: JSON.stringify(Paramdata),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    
+                    renderTableProfile(response.d);
+                },
+                failure: function (errMsg) {
+                    $('#errorMessage').text(errMsg); //errorMessage is id of the div
+                }
+            });
+			
+			
+            function GetHomePageHeading() {
+                var User = $.Storage.get("UserName");
+
+                if (User != null) {
+                    queryString = getUrlVars()["SportName"];
+                      queryString=  queryString.replace("%20"," ");
+                    var data = { "sportName": queryString };
+
+                    $.ajax(
+			{
+
+		    type: "POST",
+		    url: "http://2bvision.com/Kids2proSports/SporthomePageBuilder.asmx/GetHomePageHeading",
+		    data: JSON.stringify(data),
+		    contentType: "application/json; charset=utf-8",
+		    dataType: "json",
+
+		    success: function (response, status) {
+              //
+			   $("#ASPxLabelSportHeader").text(response.d);	
+		        
+		    },
+		    failure: function (msg) {
+		        alert(msg);
+		    }
+		});
+
+                }
+                else {
+                    window.location.href = 'login.html';
+                }
+            }
+			///GetKeywordDefinition( ///
+			   var User = $.Storage.get("UserName");
+
+                if (User != null) {
+			function GetKeywordDefinition() {
+                queryString = getUrlVars()["KeywordName"];
+                 queryString=queryString.replace("%20"," ");
+                var data = { "keyword": queryString };
+
+                $.ajax({
+                    url: 'http://2bvision.com/Kids2proSports/DataAccessService.asmx/GetKeywordDefinition',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+					
+					$("#LiteralKeywordDefinition").html( "<h2>" + getUrlVars()["KeywordName"].toString() + "</h2>" +response.d);  
+                    },
+                    failure: function (errMsg) {
+                        $('#errorMessage').text(errMsg); //errorMessage is id of the div
+                    }
+                });
+            }
+				}
+				else
+				{
+				 Window.location.href='login.html'
+				}
+			
+			
+            ///GetSportHierarchyKeyword()///
+            function GetSportHierarchyKeyword() {
+
+                queryString = getUrlVars()["KeywordName"];
+                queryString=queryString.replace("%20"," ");
+                var data = { "_KeywordName": queryString };
+
+                $.ajax({
+                    url: 'http://2bvision.com/Kids2proSports/ViewArticle.asmx/GetSportHierarchyKeyword',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+
+                       $("#divLiteralSportHierarchy").html(response.d);
+                    },
+                    failure: function (errMsg) {
+                        $('#errorMessage').text(errMsg); //errorMessage is id of the div
+                    }
+                });
+            }
+            
+            ///GetRecentArticelsSection()///
+            function GetRecentArticelsSection() {
+                queryString = getUrlVars()["SportName"];
+                  queryString=queryString.replace("%20"," ");
+                var data = { "sportName": queryString };
+
+                $.ajax({
+                    url: 'http://2bvision.com/Kids2proSports/SporthomePageBuilder.asmx/GetRecentArticelsSection',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+					//
+                       $("#divFeaturedArticles").html(response.d);  
+                    },
+                    failure: function (errMsg) {
+                        $('#errorMessage').text(errMsg); //errorMessage is id of the div
+                    }
+                });
+            }
+			
+function GetRightAdver() {
+	
+$.ajax(
+{
+type: "POST",
+url: "http://2bvision.com/Kids2proSports/AdvertisementManagerService.asmx/GetRightAdvertisingColumn",
+data: "{}",
+contentType: "application/json; charset=utf-8",
+dataType: "json",
+
+success: function (response, status) {
+ 	    $.Storage.get("UserName");
+		var asd =$("#divRightAdds");
+		$("#divRightAdds").html(response.d);	
+		
+
+	},
+		failure: function (msg) {
+		alert(msg);
+		}
+	}
+	);
+}	
+			
+      
+function GetLeaderBoard() {
+	
+$.ajax(
+{
+type: "POST",
+url: "http://2bvision.com/Kids2proSports/AdvertisementManagerService.asmx/GetLeaderBoard",
+data: "{}",
+contentType: "application/json; charset=utf-8",
+dataType: "json",
+
+success: function (response, status) {
+	
+ 	    $.Storage.get("UserName");
+		var asd =$("#divLeaderBoard");
+		$("#divLeaderBoard").html(response.d);			
+
+	},
+		failure: function (msg) {
+		alert(msg);
+		}
+	}
+	);
+}	  
+ 
+  
+ 
+    </script>
+</head>
+<body onload="GetLeaderBoard(),GetKeywordDefinition(),GetSportHierarchyKeyword()">
+    <div id="wraper" class="">
+        <header>
+          <nav>
+              <ul class="clearfix">
+                  <li>
+                      <a href="SportsDefinitions.html" target="_self" title="Sports" >Sports</a>
+                  </li>
+                  <li>
+                      <a href="createArticle.html" title="Articles" target="_self">Articles</a>
+                  </li>
+                  <li>
+                      <a class="ui-link" href="CreateTeam.html" title="Teams" target="_self">Teams</a>
+                  </li>
+                  
+                  <li>
+                      <a class="ui-link" href="CreateFanClub.html" title="Fanclubs" target="_self">Fan Clubs</a>
+                  </li>
+              </ul>
+          </nav>
+      </header>
+        <!-- header ends -->
+        <!-- container starts-->
+        <div class="contetns clearfix">
+            <!-- left area starts-->
+            <div class="contentLeft fLeft">
+                <div class="innerwrapper">
+                    <div id="divLeaderBoard">
+                    </div>
+                    <div id="LiteralKeywordDefinition">
+                    </div>
+                    <div id="divLiteralSportHierarchy">
+                    </div>
+                    <br />
+                    <div id="errormessage">
+                    </div>
+                    <br />
+                </div>
+                <div>
+                    <table id="ASPxGridViewSubSport" class="dataTables_filter">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Written By:
+                                </th>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    Text
+                                </th>
+                                <th>
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <br />
+                <div>
+                    <h2 class="ownLine">
+                        Member Sport Profiles Identified by this Keyword</h2>
+                </div>
+                <br />
+                <div>
+                    <table id="ASPxGridViewSportProfiles" class="dataTables_filter">
+                        <thead>
+                            <tr>
+                                <th>
+                                    userName
+                                </th>
+                                <th>
+                                    picture
+                                </th>
+                                <th>
+                                    Text
+                                </th>
+                                <th>
+                                    userName
+                                </th>
+                                <th>
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <br />
+                </div>
+            </div>
+           
+            <div class="clearfix">
+            </div>
+        </div>
+       
+        <!-- container ends-->
+    </div>
+</body>
+</html>

@@ -1,0 +1,128 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    
+    <title></title>
+    
+    
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="js/jquery-1.4.2.js"></script>
+    <script type="text/javascript" src="js/jquery.Storage.js"></script>
+    <script type="text/javascript" src="js/jquery.jsonp-2.1.3.min.js"></script>
+    <script type="text/javascript">
+        
+        $(document).ready(function () {
+            var online = navigator.onLine;    // Detecting the internet connection
+            if (online) {
+                // do your stuff
+            } else {
+                alert('You\'re Offline now...');
+                return false;
+            }
+             $('#lblMessage').text("");
+        });
+        function SendEmailContactUs() {
+
+
+            if ($('#TextBoxMessage').val() != "") {
+                $('#lblRequired').text("");
+                var User = $.Storage.get("UserName");
+                if (User == null)
+                {User = User; }
+               
+                    var Paramdata = { "UserName": User, "body": $('#TextBoxMessage').val() }
+
+        $.ajax(
+		{
+		    type: "POST",
+		    url: "http://2bvision.com/Kids2proSports/Mail.asmx/SendEmailFeedback",
+		    data: JSON.stringify(Paramdata),
+		    contentType: "application/json; charset=utf-8",
+		    dataType: "json",
+		    success: function (response, status) {
+                $('#TextBoxMessage').val("");
+		        $('#lblMessage').text("Feedback sent successfully");
+
+		    },
+		    failure: function (msg) {
+		        alert(msg);	    }
+		});
+            }
+            else {
+             $('#lblRequired').text('Please provide us some feedback');
+              }
+        }
+</script>
+</head>
+
+<body >
+
+    <div>
+        <div id="wraper">
+       <header>
+          <nav>
+              <ul class="clearfix">
+                  <li>
+                      <a href="SportsDefinitions.html" target="_self" title="Sports" >Sports</a>
+                  </li>
+                  <li>
+                      <a href="createArticle.html" title="Articles" target="_self">Articles</a>
+                  </li>
+                  <li>
+                      <a class="ui-link" href="CreateTeam.html" title="Teams" target="_self">Teams</a>
+                  </li>
+               
+                  <li>
+                      <a class="ui-link" href="CreateFanClub.html" title="Fanclubs" target="_self">Fan Clubs</a>
+                  </li>
+              </ul>
+          </nav>
+      </header>
+            <!-- header ends -->
+            <!-- container starts-->
+            <!-- inner menu starts-->
+            <div class="innermenu">
+                <ul class="clearfix">
+        	<li>
+              <a href="index.html" title="home" target="_self">Home</a>
+          </li>
+          <li class="sep"></li>
+          <li>
+              <a href="userprofile.html" title="profile" target="_self">Profile</a>
+          </li>
+          </ul>
+            </div>
+            <!-- inner menu ends-->
+            <div class="contetns">
+                <div class="innerwrapper">
+                    <!-- MENU ON THIS PAGE-->
+                  
+<h5>Enter your suggestions or comments here</h5> 
+<p style="font-size:small;">
+Please provide any relevant details when 
+suggesting changes or submission of a new sport home page, 
+including sport category, sport name, team, gender, age, definition, location, links, elementary, intermediate, high school, college or universities, identification to inclusion of their sport home pages and any keywords associated with those sports. 
+                    
+                    Please provide your contact information along wiht your submission including but not limited to your name and email address</p>
+                        
+                    <textarea  name="TextBoxMessage" rows="10" cols="28" id="TextBoxMessage" ></textarea>
+                   <br /><br />
+                   <label id="lblRequired" style="color:Red;"></label>
+               <br /><br />
+                    <button type="button" onclick="SendEmailContactUs()">
+                        Submit</button>
+                        <br /> <br />
+                        <label id="lblMessage" style="color:Red;"  ></label>
+                        <br />
+                   
+                </div>
+            </div>
+        </div>
+        <!-- container ends-->
+    
+    </div>
+   
+</body>
+
+</html>
+

@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title></title>
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="css/skeleton.css" rel="stylesheet" type="text/css" />
+     <script type="text/javascript" src="js/jquery-1.4.2.js"></script>
+    <script language="javascript" type="text/javascript">
+
+        $(document).ready(function () {
+            var online = navigator.onLine;    // Detecting the internet connection
+            if (online) {
+                // do your stuff
+            } else {
+                alert('You\'re Offline now...');
+                return false;
+            }
+
+            $(function () {
+                $("#ddlSelectAge").change(function () {
+
+                    Gender = $(this).find(":selected").val();
+                    if (Gender == 'I am 13 year old or over') {
+                        window.location.href = "over13.html";
+                    }
+                    if (Gender == 'I am under 13 year old') {
+                        window.location.href = "under13.html";
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+      <div id="wraper">
+            <header>
+          <nav>
+              <ul id="" class="clearfix">
+                  <li>
+                      <a href="login.html" title="home" target="_self">Home</a>
+                  </li>
+                  <li>
+                      <a href="mediakit.html" title="mediakit" target="_self">Media Kit</a>
+                  </li>
+                  <li>
+                      <a class="ui-link" href="faq.html" title="faq" target="_self">FAQ</a>
+                  </li>
+                  <li>
+                      <a class="ui-link" href="Feedback.html" title="feedback" target="_self">Feedback</a>
+                  </li>
+                  <li>
+                      <a class="ui-link" href="ContactUs.html" title="contactus" target="_self">Contact Us</a>
+                  </li>
+              </ul>
+          </nav>
+      </header>
+            <!-- header ends -->
+            <!-- container starts-->
+            <div class="contetns">
+                <!-- login -->
+                <div class="loginWrap">
+                    <div class="loginWrap">
+                        <!-- tabs-->
+                        <div class="loginTabs">
+                            <a href="register.html">Register</a> <a class="blue" href="login.html">Login</a>
+                        </div>
+                        <!-- input -->
+                        <div class="clear">
+                            <div class="loginMiddle">
+                                <div class="row newuser">
+                                    <b>Register for a Free Account </b>
+                                    <div id="ageRegister">
+                                        <select name="ddlSelectAge" id="ddlSelectAge">
+                                            <option value="0" selected="selected">--------</option>
+                                            <option value="I am 13 year old or over">I am 13 year old or over</option>
+                                            <option value="I am under 13 year old">I am under 13 year old</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- container ends-->
+                <!-- footer starts -->
+                
+                <!-- footer ends -->
+            </div>
+          </div>
+</body>
+</html>
