@@ -316,31 +316,47 @@
 <body >
    
         <div id="wraper">
-            <header>
-          <nav>
-              <ul class="clearfix">
-                  <li>
-                      <a href="SportsDefinitions.html" target="_self" title="Sports" >Sports</a>
-                  </li>
-                  <li>
-                      <a href="createArticle.html" title="Articles" target="_self">Articles</a>
-                  </li>
-                  <li>
-                      <a class="ui-link" href="CreateTeam.html" title="Teams" target="_self">Teams</a>
-                  </li>
-                  
-                  <li>
-                      <a class="ui-link" href="CreateFanClub.html" title="Fanclubs" target="_self">Fan Clubs</a>
-                  </li>
-              </ul>
-          </nav>
-      </header>
-       <div class="innermenu">
+            <header style="overflow:hidden;">
+                <nav>
+                    <ul class="clearfix">
+                        <li>
+                            <a href="index.html" title="home">Home</a>
+                        </li>
+                        <li>
+                            <a href="Faq.html" title="FAQ" target="_self">FAQ</a>
+                        </li>
+                        <li style="width: 40%;">
+                            <a href="mediaKit.html" title="mediakit" target="_self">Member Options</a>
+                        </li>
+                        <li>
+                            <a href="ContactUs.html" title="contactus" target="_self">Contact</a>
+                        </li>
+
+
+                    </ul>
+                </nav>
+            </header>
+            <div class="innermenu">
                 <ul class="clearfix">
-                    <li><a href="index.html" title="home" target="_self">Home</a> </li>
+                    <li>
+                        <a href="userprofile.html" target="_self" title="How 2 use">Profile</a>
+                    </li>
                     <li class="sep"></li>
-                    <li><a href="userprofile.html" title="profile" target="_self">Profile</a> </li>
-                    
+                    <li>
+                        <a href="SportsDefinitions.html" target="_self" title="Sports">Sports</a>
+                    </li>
+                    <li class="sep"></li>
+                    <li>
+                        <a class="ui-link" href="CreateArticle.html" title="CreateArticle" target="_self">Articles</a>
+                    </li>
+                    <li class="sep"></li>
+                    <li>
+                        <a class="ui-link" href="CreateTeam.html" title="Teams" target="_self">Teams</a>
+                    </li>
+                    <li class="sep"></li>
+                    <li>
+                        <a class="ui-link" href="CreateFanClub.html" title="Fanclubs" target="_self">Fan Clubs</a>
+                    </li>
                 </ul>
             </div>
             <!-- header ends -->
@@ -351,86 +367,101 @@
                     <div class="innerwrapper">
                         <!-- input -->
                         <div class="clear">
-                            <h4>
-                                <a href="ArticleSearch.html" title="#">Search for Existing Articles</a></h4>
-                            <div class="row newuser">
-                                <div id='loadingmessage' style='display: none'>
-                                    <img src='images/ajax-loader.gif'/>
-                                    <span id="spnLoading" style="font-family: Arial, Helvetica, sans-serif; font-size: 12px;">
-                                        Searching Please Wait...</span>
-                                </div>
-                                <div id="ageRegister">
-                                    <h5>
-                                        Language:</h5>
-                                    <select id="DropDownListLanguage" name="DropDownListLanguage">
-                                        <option selected="true" value="English">English</option>
-                                        <option value="ja">Japanese</option>
-                                        <option value="ko">Korean</option>
-                                    </select>
-                                    <h5>
-                                        Sport Category (Required):</h5>
-                                    <select name="DropDownListSportCategory" id="DropDownListSportCategory">
-                                        <option value="0" selected="true">--------</option>
-                                    </select>
-                                    <h5>
-                                        Gender / Age Identification (Optional)</h5>
-                                    <select name="DropDownListGenderIDe" id="DropDownListGenderIDe">
-                                        <option selected="true" value="0">--------</option>
-                                        <option value="Boy's">Boy's</option>
-                                        <option value="Boy's High School">Boy's High School</option>
-                                        <option value="Co-Ed">Co-Ed</option>
-                                        <option value="Co-Ed High School">Co-Ed High School</option>
-                                        <option value="Girl's">Girl's</option>
-                                        <option value="Girl's High School">Girl's High School</option>
-                                        <option value="Men's">Men's</option>
-                                        <option value="Men's College">Men's College</option>
-                                        <option value="Women's">Women's</option>
-                                        <option value="Women's College">Women's College</option>
-                                        <option value="Youth">Youth</option>
-                                    </select>
-                                    <h5>
-                                        Sport Name (Required)</h5>
-                                    <select name="DropDownListSportName" id="DropDownListSportName">
-                                        <option selected="true" value="0">--------</option>
-                                    </select>
-                                    <h5>
-                                        Keyword (Required)</h5>
-                                    <select name="DropDownListKeyword" id="DropDownListKeyword">
-                                        <option selected="true" value="0">--------</option>
-                                    </select>
-                                    <div class="uploadfiles">
+                            <div class="note2">
+                                <h4>
+                                    <a href="ArticleSearch.html" title="#">Search for Existing Articles</a>
+                                </h4>
+                                <div class="row newuser">
+                                    <div id='loadingmessage' style='display: none'>
+                                        <img src='images/ajax-loader.gif' />
+                                        <span id="spnLoading" style="font-family: Arial, Helvetica, sans-serif; font-size: 12px;">
+                                            Searching Please Wait...
+                                        </span>
+                                    </div>
+                                    <div id="ageRegister">
                                         <h5>
-                                            Enter the Article's Title</h5>
-                                        <input type="text" name="TextBoxTitle" id="TextBoxTitle"  />
-                                     
+                                            Language:
+                                        </h5>
+                                        <select id="DropDownListLanguage" name="DropDownListLanguage">
+                                            <option selected="true" value="English">English</option>
+                                            <option value="ja">Japanese</option>
+                                            <option value="ko">Korean</option>
+                                        </select>
                                         <h5>
-                                            Share a YouTube Link (Optional)</h5>
-                                        <input type="text" name="TextBoxYouTubeLink" id="TextBoxYouTubeLink" value="" />
+                                            Sport Category (Required):
+                                        </h5>
+                                        <select name="DropDownListSportCategory" id="DropDownListSportCategory">
+                                            <option value="0" selected="true">--------</option>
+                                        </select>
+                                        <h5>
+                                            Gender / Age Identification (Optional)
+                                        </h5>
+                                        <select name="DropDownListGenderIDe" id="DropDownListGenderIDe">
+                                            <option selected="true" value="0">--------</option>
+                                            <option value="Boy's">Boy's</option>
+                                            <option value="Boy's High School">Boy's High School</option>
+                                            <option value="Co-Ed">Co-Ed</option>
+                                            <option value="Co-Ed High School">Co-Ed High School</option>
+                                            <option value="Girl's">Girl's</option>
+                                            <option value="Girl's High School">Girl's High School</option>
+                                            <option value="Men's">Men's</option>
+                                            <option value="Men's College">Men's College</option>
+                                            <option value="Women's">Women's</option>
+                                            <option value="Women's College">Women's College</option>
+                                            <option value="Youth">Youth</option>
+                                        </select>
+                                        <h5>
+                                            Sport Name (Required)
+                                        </h5>
+                                        <select name="DropDownListSportName" id="DropDownListSportName">
+                                            <option selected="true" value="0">--------</option>
+                                        </select>
+                                        <h5>
+                                            Keyword (Required)
+                                        </h5>
+                                        <select name="DropDownListKeyword" id="DropDownListKeyword">
+                                            <option selected="true" value="0">--------</option>
+                                        </select>
+                                        <div class="uploadfiles">
+                                            <h5>
+                                                Enter the Article's Title
+                                            </h5>
+                                            <input type="text" name="TextBoxTitle" id="TextBoxTitle" />
+
+                                            <h5>
+                                                Share a YouTube Link (Optional)
+                                            </h5>
+                                            <input type="text" name="TextBoxYouTubeLink" id="TextBoxYouTubeLink" value="" />
+                                        </div>
+
+                                        <div class="clearfix">
+                                        </div>
+                                        <br />
+                                        <div style="width: 300px; height: auto;">
+                                            <textarea id="HtmlEditorArticle" rows="8" cols="25" name="HtmlEditorArticle"></textarea>
+                                        </div>
+                                        <br />
+                                        <div class="clearfix">
+                                        </div>
+                                        <div class="uploadfiles">
+                                            <input type="button" name="btnSubmit" id="btnSubmit" value="Submit" onclick="CreateArticle()" />
+                                        </div>
+                                        <div class="clearfix">
+                                        </div>
+                                        <br />
                                     </div>
-                                   
-                                    <div class="clearfix">
-                                    </div>
-                                    <br />
-                                    <div style="width: 300px; height: auto;">
-                                        <textarea id="HtmlEditorArticle" rows="8" cols="25" name="HtmlEditorArticle"></textarea>
-                                    </div>
-                                    <br />
-                                    <div class="clearfix">
-                                    </div>
-                                    <div class="uploadfiles">
-                                        <input type="button" name="btnSubmit" id="btnSubmit" value="Submit" onclick="CreateArticle()" />
-                                    </div>
-                                    <div class="clearfix">
-                                    </div>
-                                    <br />
                                 </div>
                             </div>
-                        </div>
                     </div>
                 </div>
                 <!-- left area ends-->
             </div>
             <!-- container ends-->
     </div>
+    <div id="footerWrap">
+        Please use your PC / tablet for the entire version of MLS.
+
+    </div>
+</div>
 </body>
 </html>

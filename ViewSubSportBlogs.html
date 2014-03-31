@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
     <meta charset="utf-8">
@@ -455,30 +455,54 @@
 </head>
 <body onload="HandleSportCountIncrementing(),IsUserAFollower(),GetNumberOfSportImpressions(),GetSportHierarchy(),GetSportDefinition(),GetMediumRectangle(),GetLeaderBoard(),GetRecentBlogs(),GetRecentBlogsForPhilanthropyAndDisabledSports(),EncodeSubNav(),GetRightAdver() ">
     <div id="wraper">
-        <header>
-          <nav>
-              <ul class="clearfix">
-                  <li>
-                      <a href="SportsDefinitions.html" target="_self" title="Sports" >Sports</a>
-                  </li>
-                  <li>
-                      <a href="createArticle.html" title="Articles" target="_self">Articles</a>
-                  </li>
-                  <li>
-                      <a class="ui-link" href="CreateTeam.html" title="Teams" target="_self">Teams</a>
-                  </li>
-                  
-                  <li>
-                      <a class="ui-link" href="CreateFanClub.html" title="Fanclubs" target="_self">Fan Clubs</a>
-                  </li>
-              </ul>
-          </nav>
-      </header>
+        <header style="overflow:hidden;">
+            <nav>
+                <ul class="clearfix">
+                    <li>
+                        <a href="index.html" title="home">Home</a>
+                    </li>
+                    <li>
+                        <a href="Faq.html" title="FAQ" target="_self">FAQ</a>
+                    </li>
+                    <li style="width: 40%;">
+                        <a href="mediaKit.html" title="mediakit" target="_self">Member Options</a>
+                    </li>
+                    <li>
+                        <a href="ContactUs.html" title="contactus" target="_self">Contact</a>
+                    </li>
+
+
+                </ul>
+            </nav>
+        </header>
+        <div class="innermenu">
+            <ul class="clearfix">
+                <li>
+                    <a href="userprofile.html" target="_self" title="How 2 use">Profile</a>
+                </li>
+                <li class="sep"></li>
+                <li>
+                    <a href="SportsDefinitions.html" target="_self" title="Sports">Sports</a>
+                </li>
+                <li class="sep"></li>
+                <li>
+                    <a class="ui-link" href="CreateArticle.html" title="CreateArticle" target="_self">Articles</a>
+                </li>
+                <li class="sep"></li>
+                <li>
+                    <a class="ui-link" href="CreateTeam.html" title="Teams" target="_self">Teams</a>
+                </li>
+                <li class="sep"></li>
+                <li>
+                    <a class="ui-link" href="CreateFanClub.html" title="Fanclubs" target="_self">Fan Clubs</a>
+                </li>
+            </ul>
+        </div>
         <!-- header ends -->
         <!-- container starts-->
         <div class="contetns clearfix">
             <!-- left area starts-->
-            <div class="contentLeft fLeft">
+            <!--<div class="contentLeft fLeft">-->
                 <div id="divLeaderBoard">
                 </div>
                 <div class="innerwrapper">
@@ -558,7 +582,7 @@
                 <br />
                 <div class="note">
                     <p>
-                        <strong>Our members are the lifeblood of MLS…… and in our continued support of sport
+                        <strong>Our members are the lifeblood of MLS... and in our continued support of sport
                             competition we will donate a portion of our advertising revenue to Sports Philanthropy,
                             Grants, Scholarships and Disabled Sport related Charities.</strong>
                     </p>
@@ -588,6 +612,10 @@
             </div>
         </div>
         <!-- container ends-->
+    <!--</div>-->
+    <div id="footerWrap">
+        Please use your PC / tablet for the entire version of MLS.
+
     </div>
 </body>
 </html>
